@@ -28,7 +28,8 @@ Maria is more than just an AI - she's Mudakka's digital ambassador, with:
 
 ### Maria's Digital Presence
 <div align="center">
-  <img src="assets/maria-profile.jpg" alt="Maria - Mudakka's AI Representative" width="400"/>
+  <img src="assets/maria-profile.png" alt="Maria - Mudakka's AI Representative" width="400"/>
+  <img src="assets/maria-profile-2.png" alt="Maria - In Action" width="400" style="margin-top: 20px;"/>
   <p><em>Maria, combining AI intelligence with a warm, professional presence</em></p>
 </div>
 
