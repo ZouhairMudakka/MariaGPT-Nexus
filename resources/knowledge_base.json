@@ -1,0 +1,83 @@
+{
+    "representative": {
+        "welcome_messages": [
+            "Welcome to Mudakka! How can I assist you today?",
+            "Thank you for reaching out to us. How may I help?"
+        ],
+        "department_info": {
+            "technical_support": "Technical assistance and troubleshooting",
+            "sales_inquiry": "Product information and purchases",
+            "billing_issue": "Payment and invoice matters",
+            "scheduling": "Appointments and meetings",
+            "hr_inquiry": "Career opportunities and HR matters",
+            "partnership_request": "Business partnership inquiries",
+            "press_inquiry": "Media and press relations",
+            "marketing": "Marketing and promotional activities",
+            "career_inquiry": "Job applications and opportunities",
+            "media_request": "Media assets and brand resources",
+            "development": "Product development inquiries",
+            "finance": "Financial matters and reporting"
+        },
+        "routing_guidelines": {
+            "urgent_matters": "Immediate routing to relevant department",
+            "general_inquiries": "Initial assessment before routing",
+            "complex_issues": "Multi-department coordination protocol"
+        }
+    },
+    "sales": {
+        "products": {
+            "categories": ["Software", "Hardware", "Services"],
+            "pricing_tiers": ["Basic", "Professional", "Enterprise"],
+            "specifications": "Detailed product specifications...",
+            "features": "List of product features..."
+        },
+        "pricing": {
+            "basic_tier": "Starting from $99/month",
+            "professional_tier": "Starting from $199/month",
+            "enterprise_tier": "Custom pricing",
+            "discounts": {
+                "annual": "20% off annual subscriptions",
+                "bulk": "Custom discounts for bulk purchases"
+            }
+        },
+        "promotions": {
+            "current_offers": "List of active promotions...",
+            "seasonal_deals": "Seasonal discount information...",
+            "partner_discounts": "Partner program benefits..."
+        }
+    },
+    "customer_support": {
+        "account": {
+            "faq": "Frequently asked account questions...",
+            "security": "Account security guidelines...",
+            "access_levels": "Different account access types..."
+        },
+        "technical": {
+            "troubleshooting": "Common technical issues and solutions...",
+            "system_requirements": "Minimum system requirements...",
+            "installation": "Installation guides..."
+        },
+        "billing": {
+            "payment_methods": "Accepted payment methods...",
+            "refund_policy": "Refund and cancellation policies...",
+            "invoice_queries": "Invoice and billing FAQ..."
+        }
+    },
+    "scheduler": {
+        "appointments": {
+            "types": ["Sales Demo", "Technical Support", "Consultation"],
+            "duration_options": ["30 mins", "1 hour", "2 hours"],
+            "booking_rules": "Appointment booking guidelines..."
+        },
+        "meetings": {
+            "available_rooms": ["Room A", "Room B", "Virtual Meeting"],
+            "meeting_types": ["One-on-One", "Team Meeting", "Client Meeting"],
+            "preparation_guidelines": "Meeting preparation checklist..."
+        },
+        "reminders": {
+            "notification_types": ["Email", "SMS", "System Alert"],
+            "timing_options": ["24h before", "1h before", "15min before"],
+            "follow_up_protocol": "Follow-up scheduling guidelines..."
+        }
+    }
+}

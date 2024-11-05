@@ -1,0 +1,369 @@
+# API Keys and Credentials
+.env
+multiagent_demo_credentials.json
+token.pickle
+credentials.json
+
+# OpenAI
+.openai
+openai.key
+
+# SendGrid
+sendgrid.env
+
+# Logs and Data
+conversation_logs/
+email_logs/
+data/user_interactions/
+*.log
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual Environment
+venv/
+ENV/
+env/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+# Logs and databases
+*.log
+*.sqlite
+conversation_logs/
+data/user_interactions/
+
+# API Credentials
+anthropic.key
+midjourney.key
+ideogram.key
+claude_api_key.env
+
+# Google Cloud
+google_cloud_credentials.json
+google_service_account.json
+google_calendar_token.json
+
+# Image Generation
+generated_images/
+image_cache/
+temp_images/
+
+# Document Processing
+uploaded_files/
+processed_docs/
+temp_uploads/
+*.docx
+*.doc
+*.pdf
+*.pptx
+*.xlsx
+*.wav
+*.mp3
+*.mp4
+
+# UI/Frontend
+node_modules/
+.next/
+.nuxt/
+dist/
+build/
+*.css.map
+*.js.map
+
+# Database
+*.db
+*.sqlite3
+migrations/
+db.config.json
+
+# Testing and Coverage
+.coverage
+coverage/
+htmlcov/
+.pytest_cache/
+test-results/
+
+# Deployment
+.terraform/
+*.tfstate
+*.tfvars
+kubernetes/secrets/
+docker-compose.override.yml
+
+# Commercial License
+license.key
+enterprise_config.json
+
+# Google API Credentials
+multiagent_demo_credentials.json
+token.pickle
+google_cloud_credentials.json
+google_service_account.json
+google_calendar_token.json
+*.credentials.json
+client_secrets.json
+
+# API Keys and Tokens
+*.key
+*_key.env
+*.token
+token.*
+credentials.*
+
+# Cloud Platform Credentials
+## Google Cloud
+google_cloud_*.json
+gcp_*.json
+google_service_account*.json
+google_credentials*.json
+google-credentials*.json
+*-compute.json
+
+## AWS
+.aws/
+aws.config
+aws_config.json
+*.pem
+aws-credentials.json
+aws_secrets.yml
+
+## Azure
+azure_settings.json
+azure_credentials.json
+.azure/
+
+# CRM & Marketing
+## Salesforce
+salesforce_credentials.json
+sf_enterprise.wsdl
+sf_partner.wsdl
+
+## HubSpot
+hubspot.key
+hubspot_credentials.json
+hubspot_api_key.txt
+
+## Odoo
+odoo_config.json
+.odoorc
+odoo.conf
+
+# Integration Platforms
+## Zapier
+zapier_hooks.json
+zapier_credentials.json
+zapier_webhook_urls.txt
+
+## Make (Integromat)
+make_credentials.json
+integromat_tokens.json
+make_webhook_urls.txt
+
+# Email Services
+## SendGrid
+sendgrid.env
+.sendgrid.env
+
+## Mailchimp
+mailchimp.key
+mailchimp_credentials.json
+
+## Amazon SES
+ses_credentials.json
+aws_ses.json
+
+# Social Media
+## Twitter/X
+twitter_api.key
+twitter_credentials.json
+
+## LinkedIn
+linkedin_credentials.json
+linkedin_api.json
+
+## Instagram
+instagram_credentials.json
+meta_credentials.json
+
+# Hosting & Domains
+## Cloudflare
+cloudflare.key
+cloudflare.json
+.cloudflare/
+
+## Digital Ocean
+digital_ocean.key
+do_credentials.json
+
+## Heroku
+.heroku/
+heroku.json
+.env.heroku
+
+# Database Credentials
+## MongoDB
+mongodb_uri.txt
+mongo_credentials.json
+
+## PostgreSQL
+.pgpass
+postgresql_credentials.json
+
+# Payment Processing
+## Stripe
+stripe_key.json
+.stripe/
+
+## PayPal
+paypal_credentials.json
+paypal_api.json
+
+# Analytics
+## Google Analytics
+ga_credentials.json
+analytics_credentials.json
+
+## Mixpanel
+mixpanel.key
+mixpanel_credentials.json
+
+# Development Tools
+## GitHub
+.github_token
+github_pat.txt
+
+## GitLab
+gitlab_credentials.json
+.gitlab-ci.yml
+
+# Cache and Environment
+.cache/
+.env*
+.env.*
+*.env
+env/
+.venv/
+*.secret
+*_secret.*
+secrets.yml
+secrets.yaml
+secrets.json
+credentials.yml
+credentials.yaml
+api_keys.json
+
+# Application Data
+data/
+feedback_reports/
+evaluation_data/
+performance_metrics/
+daily_reports/
+*.report
+reports/*.docx
+reports/*.pdf
+
+# Temporary Files
+tmp/
+temp/
+*.tmp
+*.temp
+.DS_Store
+Thumbs.db
+
+# Backup Files
+*.bak
+*.backup
+*~
+*.swp
+*.swo
+*.swn
+backup/
+backups/
+
+# Local Configuration
+config/local.py
+config/development.py
+config/*.local.json
+local_settings.py
+instance/
+
+# Service Workers
+service-worker.js
+workbox-*.js
+sw.js
+
+# Debug Files
+debug/
+*.debug
+debug.log
+error.log
+crash-reports/
+
+# Machine Learning
+models/
+*.model
+*.weights
+training_data/
+*.pkl
+*.joblib
+
+# Documentation Build
+docs/_build/
+site/
+_site/
+*.sphinx
+*.doctree
+
+# Test Data
+tests/data/
+tests/fixtures/
+test_output/
+coverage.xml
+.pytest_cache/
+__snapshots__/
+cypress/videos/
+cypress/screenshots/
+
+# Security
+*.pem
+*.key
+*.crt
+*.csr
+*.srl
+*.p12
+*.pfx
+*.keystore
+.gnupg/
+.ssh/
+
+# Application Specific
+conversation_records/*.json
+email_logs/*.json
+user_interactions/*.json
+knowledge_base/*.json
+google_resources/*.json
+
