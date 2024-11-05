@@ -1,26 +1,41 @@
+from typing import Any, Dict, Optional
 import logging
+import os
+from datetime import datetime
 from pathlib import Path
 
-class AgentLogger:
-    def __init__(self, name: str):
+class Logger:
+    def __init__(self, name: str, log_dir: str = "logs"):
         self.logger = logging.getLogger(name)
-        self.logger.setLevel(logging.INFO)
+        self.log_dir = Path(log_dir)
+        self.log_dir.mkdir(parents=True, exist_ok=True)
         
-        # Create logs directory if it doesn't exist
-        log_dir = Path("logs")
-        log_dir.mkdir(exist_ok=True)
-        
-        # Add file handler
-        file_handler = logging.FileHandler(log_dir / f"{name.lower()}.log")
+        # Configure file handler
+        log_file = self.log_dir / f"{name}_{datetime.now().strftime('%Y%m%d')}.log"
+        file_handler = logging.FileHandler(log_file)
         file_handler.setFormatter(
             logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
         )
-        self.logger.addHandler(file_handler)
         
-        # Add console handler if none exists
-        if not any(isinstance(h, logging.StreamHandler) for h in self.logger.handlers):
-            console_handler = logging.StreamHandler()
-            console_handler.setFormatter(
-                logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s')
-            )
-            self.logger.addHandler(console_handler) 
+        # Configure console handler
+        console_handler = logging.StreamHandler()
+        console_handler.setFormatter(
+            logging.Formatter('%(levelname)s: %(message)s')
+        )
+        
+        # Add handlers and set level
+        self.logger.addHandler(file_handler)
+        self.logger.addHandler(console_handler)
+        self.logger.setLevel(logging.INFO)
+    
+    def info(self, message: str) -> None:
+        self.logger.info(message)
+    
+    def error(self, message: str) -> None:
+        self.logger.error(message)
+    
+    def warning(self, message: str) -> None:
+        self.logger.warning(message)
+    
+    def debug(self, message: str) -> None:
+        self.logger.debug(message)

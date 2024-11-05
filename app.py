@@ -1,9 +1,12 @@
 from flask import Flask, request, jsonify
 import os
 from dotenv import load_dotenv
-import openai
 from agents.agent_router import AgentRouter
 from agents.representative_agent import RepresentativeAgent
+from services.openai_service import OpenAIService
+from agents.autogen.workflows.conversation import ConversationWorkflow
+from agents.evaluation_metrics import ConversationEvaluator, EvaluationStorage
+from utils.logger import Logger
 
 # Initialize Flask app
 app = Flask(__name__)
@@ -11,16 +14,26 @@ app = Flask(__name__)
 # Load environment variables
 load_dotenv()
 
-# Get API key
-OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
-if OPENAI_API_KEY is None:
-    print("Warning: OPENAI_API_KEY not found in environment variables")
-else:
-    print("API key loaded successfully")
-    openai.api_key = OPENAI_API_KEY
+# Initialize services and components
+openai_service = OpenAIService(api_key=os.getenv("OPENAI_API_KEY"))
+logger = Logger(name="mariagpt")
+evaluator = ConversationEvaluator(log_dir="evaluation_logs")
+evaluation_storage = EvaluationStorage()
+
+# Initialize workflow
+conversation_workflow = ConversationWorkflow(
+    group_chat=None,  # Will be set per conversation
+    evaluator=evaluator,
+    evaluation_storage=evaluation_storage,
+    openai_service=openai_service,
+    logger=logger
+)
 
 # Initialize agents
-representative_agent = RepresentativeAgent()
+representative_agent = RepresentativeAgent(
+    openai_service=openai_service,
+    conversation_workflow=conversation_workflow
+)
 agent_router = AgentRouter()
 agent_router.set_representative(representative_agent)
 

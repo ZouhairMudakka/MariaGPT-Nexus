@@ -8,6 +8,7 @@ from agents.utils.error_handler import handle_agent_errors
 from agents.utils.logger import AgentLogger
 import json
 import os
+from .autogen import AutoGenManager, AgentFactory
 
 CONVERSATION_RECORDS_PATH = "conversation_records"
 
@@ -24,71 +25,31 @@ class RepresentativeAgent(BaseAgent):
         
         super().__init__("Maria", context, openai_service)
         self.agent_router = AgentRouter(openai_service)
-        self.agent_router.set_representative(self)
         self.state_manager = state_manager
         self.logger = AgentLogger("RepresentativeAgent")
+        self.autogen_manager = AutoGenManager()
         self.conversation_id = f"conv_{datetime.now().strftime('%Y%m%d_%H%M%S')}"
 
-    @handle_agent_errors("I apologize, but I'm having trouble processing your request. Please try again.")
-    def handle_conversation(self, query: str) -> Tuple[str, str]:
+    async def handle_conversation_with_autogen(self, query: str) -> Tuple[str, str]:
         try:
-            self.conversation_history.append({"role": "user", "content": query})
-            
-            if self.state_manager is None:
-                return "I apologize, but I'm having trouble with the system state. Please try again.", "general"
-                
-            state = self.state_manager.get_state(self.conversation_id)
-            
-            # Continue with specialist if already engaged
-            if state.last_agent and state.last_agent != "Maria":
-                category = state.current_category
-                
-                # Handle contact info if previously requested
-                if not state.validated_contact_info and category == "scheduling":
-                    contact_info = self.validate_contact_info(query)  # Only validate current message
-                    if contact_info["is_valid"]:
-                        state.contact_info.update(contact_info)
-                        state.validated_contact_info = True
-                        self.handle_valid_contact_info(contact_info, category, query)
-                        response = self.agent_router.route_query("Contact info received, please proceed with scheduling")
-                        return response, category
-                
-                # Check for conversation end
-                if self.is_conversation_end(query):
-                    return self.handle_conversation_end(), "general"
-                    
-                response = self.agent_router.route_query(query)
-                return response, category
-            
-            # New conversation classification
             category = self.agent_router.classify_query(query)
-            state.current_category = category
             
-            response = self.agent_router.route_query(query)
+            # Determine required agents based on category
+            required_agents = ["maria"]
+            if category in ["technical", "sales", "scheduling"]:
+                required_agents.append(category)
+
+            # Initialize AutoGen group chat with required agents
+            self.autogen_manager.create_group_chat(required_agents)
             
-            # Update state
-            state.interaction_count += 1
-            state.last_agent = response.split("]")[0].replace("[", "") if "]" in response else "Maria"
-            
-            self.conversation_history.append({
-                "role": "assistant",
-                "content": response,
-                "category": category,
-                "agent": state.last_agent
-            })
-            
-            self.state_manager.update_state(
-                self.conversation_id,
-                current_category=category,
-                last_agent=state.last_agent,
-                validated_contact_info=state.validated_contact_info
-            )
+            # Initiate the conversation
+            response = await self.autogen_manager.initiate_chat(query)
             
             return response, category
             
         except Exception as e:
-            self.logger.logger.error(f"Error in handle_conversation: {str(e)}", exc_info=True)
-            return "I apologize, but I'm having trouble processing your request. Please try again.", "error"
+            self.logger.error(f"AutoGen conversation error: {str(e)}")
+            return "I apologize, but I'm having trouble processing your request.", "general"
 
     def handle_valid_contact_info(self, contact_info: Dict[str, Any], category: str, query: str) -> None:
         """Handle validated contact information and schedule follow-ups."""
@@ -617,3 +578,13 @@ Recommendations:
         except Exception as e:
             self.logger.logger.error(f"Contact validation error: {str(e)}")
             return {"email": None, "phone": None, "is_valid": False}
+
+    def get_specialist_name(self, category: str) -> str:
+        """Get specialist name based on category."""
+        specialist_names = {
+            'technical_support': 'Alex',
+            'sales_inquiry': 'Sarah',
+            'scheduling': 'Mike',
+            'general': 'Maria'
+        }
+        return specialist_names.get(category, 'Unknown')

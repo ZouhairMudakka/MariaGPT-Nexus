@@ -15,6 +15,9 @@ from agents.representative_agent import RepresentativeAgent
 from services.google_auth_service import GoogleAuthService, AuthenticationError, ServiceInitializationError
 from agents.google_docs_manager import GoogleDocsManager
 from config.google_config import GOOGLE_API_SCOPES, AUTH_SETTINGS
+from utils.logger import Logger
+from agents.evaluation_metrics import ConversationEvaluator, EvaluationStorage
+from agents.autogen.workflows.conversation import ConversationWorkflow
 
 def display_message(agent_name: str, message: str):
     # Remove the agent name if it appears in the message
@@ -55,18 +58,28 @@ def initialize_services():
         logging.error(f"Failed to initialize services: {str(e)}")
         raise
 
-def main():
-    # Initialize OpenAIService first
+async def main():
+    # Initialize services
     load_dotenv()
-    api_key = os.getenv("OPENAI_API_KEY")
-    openai_service = OpenAIService(api_key=api_key)
+    openai_service = OpenAIService(api_key=os.getenv("OPENAI_API_KEY"))
+    logger = Logger(name="mariagpt")
+    evaluator = ConversationEvaluator(log_dir="evaluation_logs")
+    evaluation_storage = EvaluationStorage()
     
-    # Initialize state manager
-    from agents.state_manager import StateManager
-    state_manager = StateManager()
+    # Initialize workflow
+    conversation_workflow = ConversationWorkflow(
+        group_chat=None,
+        evaluator=evaluator,
+        evaluation_storage=evaluation_storage,
+        openai_service=openai_service,
+        logger=logger
+    )
     
-    # Pass both openai_service and state_manager to RepresentativeAgent
-    agent = RepresentativeAgent(openai_service=openai_service, state_manager=state_manager)
+    # Initialize agent with workflow
+    agent = RepresentativeAgent(
+        openai_service=openai_service,
+        conversation_workflow=conversation_workflow
+    )
     
     print("Multi-Agent Chatbot (type 'quit' to exit)")
     print("-" * 40)
@@ -77,33 +90,20 @@ def main():
     while True:
         user_message = input("You: ")
         
-        # Check for conversation end
-        if user_message.lower() in ['quit', 'exit'] or agent.is_conversation_end(user_message):
-            # Generate and show public summary
-            display_message(agent.name, agent.generate_public_summary())
-            
-            # Extract and save action items
-            agent.extract_action_items()
-            
-            # Save complete conversation record
-            save_conversation(agent.conversation_history)
-            
-            print(f"\n[{agent.name}]: Goodbye! Have a great day!")
+        if user_message.lower() in ['quit', 'exit']:
+            # Handle conversation end using workflow
+            end_message = await conversation_workflow.handle_conversation_end()
+            display_message(agent.name, end_message)
             break
-        
-        # Get response from appropriate specialist
+            
+        # Get response using workflow patterns
         response, category = agent.handle_conversation(user_message)
-        
-        # Get specialist name based on category
-        specialist_names = {
-            'technical_support': 'Alex',
-            'sales_inquiry': 'Sarah',
-            'scheduling': 'Mike',
-            'general': 'Maria'
-        }
-        specialist_name = specialist_names.get(category, 'Unknown')
-        
+        specialist_name = agent.get_specialist_name(category)
         display_message(specialist_name, response)
+
+if __name__ == "__main__":
+    import asyncio
+    asyncio.run(main())
 
 if __name__ == "__main__":
     main()
