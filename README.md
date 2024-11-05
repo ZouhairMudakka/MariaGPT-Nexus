@@ -12,7 +12,7 @@ The system represents a new paradigm in AI-human interaction, combining:
 
 ### Meet Maria
 Maria is more than just an AI - she's Mudakka's digital ambassador, with:
-- Active social media presence [@maria.gpt](https://www.instagram.com/maria.gpt) on Instagram
+- Active social media presence [@maria.gpt](https://www.instagram.com/maria_mudakka.ai/) on Instagram
 - Professional email communications (maria.gpt@mudakka.com)
 - Personality-driven interactions
 - Multi-lingual capabilities
