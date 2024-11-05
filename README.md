@@ -47,8 +47,8 @@
 
 ### Installation
 bash
-git clone https://github.com/mudakka/mariagpt-nexus.git
-cd mariagpt-nexus
+git clone https://github.com/ZouhairMudakka/MariaGPT-Nexus.git
+cd MariaGPT-Nexus
 pip install -r requirements.txt
 
 ## Licensing
