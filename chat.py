@@ -3,6 +3,7 @@ import sys
 from dotenv import load_dotenv
 from datetime import datetime
 import json
+import logging
 
 # Get the absolute path to the project root directory
 project_root = os.path.dirname(os.path.abspath(__file__))
@@ -11,6 +12,9 @@ sys.path.insert(0, project_root)
 
 from services.openai_service import OpenAIService
 from agents.representative_agent import RepresentativeAgent
+from services.google_auth_service import GoogleAuthService, AuthenticationError, ServiceInitializationError
+from agents.google_docs_manager import GoogleDocsManager
+from config.google_config import GOOGLE_API_SCOPES, AUTH_SETTINGS
 
 def display_message(agent_name: str, message: str):
     # Remove the agent name if it appears in the message
@@ -30,6 +34,26 @@ def save_conversation(conversation_history):
             json.dump(conversation_history, f, indent=2)
     except Exception as e:
         print(f"Error saving conversation record: {e}")
+
+def initialize_services():
+    try:
+        # Initialize Google Auth Service
+        auth_service = GoogleAuthService(
+            credentials_file=AUTH_SETTINGS['credentials_file'],
+            token_file=AUTH_SETTINGS['token_file'],
+            scopes=GOOGLE_API_SCOPES
+        )
+        
+        # Initialize Google Docs Manager with auth service
+        google_docs_manager = GoogleDocsManager(auth_service)
+        
+        if not google_docs_manager.validate_services():
+            raise ServiceInitializationError("Failed to validate Google services")
+            
+        return google_docs_manager
+    except (ImportError, AuthenticationError, ServiceInitializationError) as e:
+        logging.error(f"Failed to initialize services: {str(e)}")
+        raise
 
 def main():
     # Initialize OpenAIService first

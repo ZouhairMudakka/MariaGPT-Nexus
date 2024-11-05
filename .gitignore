@@ -72,6 +72,11 @@ generated_images/
 image_cache/
 temp_images/
 
+# Allow assets folder for README images
+!assets/
+!assets/*.jpg
+!assets/*.png
+
 # Document Processing
 uploaded_files/
 processed_docs/
